@@ -25,7 +25,7 @@ SECRET_KEY = 'l$(_2eu52xc)=gs(uh_ztxqotkisso_)(xu+x5hnh%##8ohqn0'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://suvem-blog21.herokuapp.com']
+ALLOWED_HOSTS = ['https://suvm-blog2104.herokuapp.com/']
 
 
 # Application definition
