@@ -1,12 +1,30 @@
-from django.shortcuts import render,HttpResponse,get_object_or_404
+from django.shortcuts import render,HttpResponse,get_object_or_404,HttpResponseRedirect,redirect
 from .models import Post,Comment
 from	django.core.paginator import Paginator,	EmptyPage,PageNotAnInteger
-from .forms import EmailPostForm,CommentForm
+from .forms import EmailPostForm,CommentForm,PostForm
+from django.contrib.auth.forms import UserCreationForm
 from	django.core.mail	import	send_mail
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 
+def LoginView(request):
+    # return HttpResponse("Hello")
+    return render(request, "blog/registeration/login.html")
+
+def register(request):
+    if request.method == "POST":
+        forms = UserCreationForm(request.POST)
+        if forms.is_valid():
+            forms.save()
+            return redirect('login')
+    else:
+        forms = UserCreationForm()
+    return render(request, "registration/register.html", {'form': forms})
+
+@login_required
 # Create your views here.
 def	post_list(request):
+    
 	object_list = Post.published.all()
 	paginator	= Paginator(object_list,	1)	
 	page	=request.GET.get('page')
@@ -35,18 +53,28 @@ def post_detail(request,year,month,day,post):
         #A comment was posted
         comment_form = CommentForm(request.POST)
         if comment_form.is_valid():
-            #create the comment object but dont save yet
-            new_comment = comment_form.save(commit=False)
-            #Assign the current post to the comment
-            new_comment.post = post
-            #save Comment to the database
-            new_comment.save()
+            # #create the comment object but dont save yet
+            # print(comment_form)
+            # new_comment = comment_form.save(commit=False)
+            # #Assign the current post to the comment
+            # new_comment.post = post
+            # #save Comment to the database
+            Comment.objects.create(post=post,name=comment_form.cleaned_data['name'],email=comment_form.cleaned_data['email'],body=comment_form.cleaned_data['body'])
+            
+            comment_form = CommentForm()
+            data = {'post':post,
+                'comments':	comments,
+                'new_comment':	new_comment,
+                'comment_form':	comment_form }
+
+        return render(request,"blog/post/detail.html",data)
+   
     else:
         comment_form = CommentForm()
     data = {'post':post,
-            'comments':	comments,
-            'new_comment':	new_comment,
-			'comment_form':	comment_form }
+                'comments':	comments,
+                'new_comment':	new_comment,
+                'comment_form':	comment_form }
     return render(request,"blog/post/detail.html",data)
 
 
@@ -68,3 +96,14 @@ def post_share(request, post_id):
     else:
         form = EmailPostForm()
     return render(request, 'blog/post/share.html', {'post': post, 'form': form,"sent":sent})
+
+
+def AddPost(request):
+    comment_form = PostForm(request.POST)
+    if request.method == 'POST':
+        #create the comment object but dont save yet
+            print(comment_form)
+            new_comment = comment_form.save(commit=False)
+            #Assign the current post to the comment
+            new_comment.post = post
+            #save Comment to the database

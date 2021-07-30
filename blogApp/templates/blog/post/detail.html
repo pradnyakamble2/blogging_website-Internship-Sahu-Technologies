@@ -1,33 +1,228 @@
-{% extends "blog/base.html" %} {% block title %}{{ post.title }}{% endblock %} {% block content %}
-<h1>{{ post.title }}</h1>
-<p class="date">
-    Published {{ post.publish }} by {{ post.author }}
-</p>
-{{ post.body|linebreaks }}
-<p>
-    <a href="{%	url	'blogApp:post_share' post.id	%}">
-            Share	this	post
-    </a>
-</p>
-{% with comments.count as total_comments %}
-<h2>
-    {{ total_comments }} comment{{ total_comments|pluralize }}
-</h2>
-{% endwith %} {% for comment in comments %}
-<div class="comment">
-    <p class="info">
-        Comment {{ forloop.counter }} by {{ comment.name }} {{ comment.created }}
-    </p>
-    {{ comment.body|linebreaks }}
-</div>
-{% empty %}
-<p>There are no comments yet.</p>
-{% endfor %} {% if new_comment %}
-<h2>Your comment has been added.</h2>
-{% else %}
-<h2>Add a new comment</h2>
-<form action="." method="post">
-    {{ comment_form.as_p }} {% csrf_token %}
-    <p><input type="submit" value="Add	comment"></p>
-</form>
-{% endif %} {% endblock %}
+
+ 
+{% extends "blog/base.html" %}
+{% load static %} {% block title %}{{ post.title }}{% endblock %} {% block content %}
+<!-- Post Content -->
+
+<section class="container">
+    <article id="post">
+        <div class="headings text-center">
+            <div class="category">
+                <a href="#" class="nav-link">Travel</a>
+            </div>
+
+            <div class="title">
+                <h2 class="text-title text-dark display-1">{{ post.title }}</h2>
+            </div>
+
+            <div class="meta">
+                <a href="#" class="link display-2 text-secondary px-1">
+                    <i class="fas fa-user text-primary">&nbsp;{{ post.author }}</i>
+                </a>
+                <a href="#" class="link display-2 text-secondary px-1">
+                    <i class="fas fa-clock text-primary"> &nbsp; {{ post.publish }}</i>
+                </a>
+                <a href="#" class="link display-2 text-secondary px-1">
+                    {% with comments.count as total_comments %}
+                    <i class="fas fa-comments text-primary">&nbsp;{{ total_comments }}</i>
+                    {% endwith %}
+                </a>
+            </div>
+        </div>
+
+      <!-- Thumbnail  -->  
+
+      <div class="thumbnail mt-3">
+        <img src="{% static '/assests/img1.jpg' %}" class="thumbnail" alt="">
+      </div>  
+
+      <!-- Thumbnail ends  --> 
+      
+      <!-- Contents -->
+
+      <div class="content text-dark display-2 secondary-title mt-3">
+         <p>{{ post.body }}
+         </p>
+         
+      </div>
+
+      <!-- Contents End -->
+    </article>
+
+ <!-- Post Footer Section -->
+
+    <div class="post-footer mb-3">
+        <div class="post-tags d-flex flex-wrap justify-content-center">
+            <a href="#" class="nav-link btn bg-light">Travel</a>
+            <a href="#" class="nav-link btn bg-light">Food</a>
+            <a href="#" class="nav-link btn bg-light">Lifestyle</a>
+            <a href="#" class="nav-link btn bg-light">Technology</a>
+            <a href="#" class="nav-link btn bg-light">Fashion</a>
+        </div>
+
+        <!-- post Author Section -->
+
+        <div class="post-author text-center">
+            <div class="author-avatar">
+                
+                <img src="{% static '/assests/face/face1.jpg' %}" class="rounded" alt="">
+            </div>
+
+            <div class="author-info py-2">
+                <h3 class="text-dark">Jhon Stephens</h3>
+                <p class="text-secondary secondary-title">
+                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. 
+                    Recusandae, sequi! In harum laborum ipsa voluptatibus doloremque nulla, tempore aut veritatis.  
+                </p>
+
+                <div class="post-tags d-flex flex-wrap justify-content-center">
+                    <a href="#" class="nav-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="nav-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="nav-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="nav-link"><i class="fab fa-dribbble"></i></a>                               
+                </div>
+            </div>
+        </div>
+
+        <!-- Post Related -->
+
+        <div class="post-related py-2">
+            <div class="row justify-content-center">
+                <div class="prev">
+                    <div class="py-2">
+                        <a href="#" class="display-2 text-dark">
+                            <i class="fas fa-chevron-left"></i>
+                            Previous Post
+                        </a>
+                    </div>
+                    <article class="artcle text-center">
+                        <div class="d-flex">
+                            <a href="#">
+                                <img src="{% static '/assests/img3.jpg' %}" class="object-fit" alt="">
+                            </a>
+                            <div class="cart-body px-1">
+                                <div class="category">
+                                    <a href="#" class="link text-primary text-secondary">Lifestyle</a>
+                                </div>
+                                <a href="#" class="text-title display-1 text-dark">
+                                    Looking for some feedback for this rejected track 
+                                    technology
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                <div class="next text-right">
+                    <div class="py-2">
+                        <a href="#" class="display-2 text-dark">
+                            Next Post
+                            <i class="fas fa-chevron-right"></i>
+                        </a>
+                    </div>
+                    <article class="artcle text-center">
+                        <div class="d-flex">
+                            <a href="#">
+                                <img src="{% static '/assests/img7.jpg' %}" class="object-fit" alt="">
+                            </a>
+                            <div class="cart-body px-1">
+                                <div class="category">
+                                    <a href="#" class="link text-primary text-secondary">Lifestyle</a>
+                                </div>
+                                <a href="#" class="text-title display-1 text-dark">
+                                    Looking for some feedback for this rejected track 
+                                    technology
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+
+        <!-- Post Related Ends -->
+
+        <!-- Comments Section -->
+
+        <div class="post-comments py-2">
+            {% with comments.count as total_comments %}
+            <h3 class="text-center display-1 secondary-title py-2">{{ total_comments }} Comments</h3>
+            {% endwith %}
+            {% for comment in comments %}
+            <di v class="comment-details">
+                <div class="comment-item py-2">
+                    <div class="d-flex">
+                        <div class="avatar px-2">
+                            <img src="{% static '/assests/face/face1.jpg' %}" class="rounded" alt="">
+                        </div>
+                        <div class="comment-content">
+                            <h5 class="display-2 m-0"> {{ forloop.counter }} by {{ comment.name }} {{ comment.created }}</h5>
+                            <p class="secondary-title text-dark">
+                                {{ comment.body }}
+                            </p>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div class="comment-content">
+                        <h5 class="display-2 m-0">There is no comment yet</h5>
+                        
+                    </div>
+                    {% endfor %}
+                    {% if new_comment %}
+                    <div class="comment-content">
+                        <h5 class="display-2 m-0">Your Comment added sucessfully</h5>
+                        
+                    </div>
+                    {% else %}
+                    <h2 class="d-flex justify-content-center">Add a new comment</h2>
+                    <!-- <div class="comment-form">
+                        <h3 class="text-center display-1 secondary-title">Leave Comment</h3>
+                        <div class="d-flex justify-content-between">
+                            <input type="text" class="form-control" placeholder="Name">
+                            <input type="email" class="form-control" placeholder="Email">
+                            <input type="text" class="form-control" placeholder="Website">
+                        </div>
+                        <textarea class="form-control mt-2" placeholder="Message" rows="10"></textarea>
+                        <div class="text-center">
+                            <button >Submit</button>
+                        </div>
+                    </div> -->
+                    <div class="row d-flex align-item-center justify-content-center">
+                        <div class="col-md-6 col-lg-8 ">
+                            <form action="." method="post" class="mx-auto">
+                                {{ comment_form }} {% csrf_token %}
+                                <p class="d-flex justify-content-center"><input class="btn btn-primary display-2 text-light mt-2 "  type="submit" value="Add comment"></p>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    {% endif %}
+ 
+                    <!-- Comment Replay -->
+
+                    
+
+                    <!-- Comment Replay End -->
+                </div>
+
+               
+            </div>
+
+
+            <!-- Leave Comments Section -->
+
+            
+
+            <!-- Leave Comments Section Ends -->
+        </div>
+
+        <!-- Comments Section Ends -->
+
+        <!-- post Author Section end -->
+    </div>
+
+ <!-- Post Footer Section Ends -->
+    
+</section>
+
+<!-- Post Content Ends -->
+ {% endblock %}

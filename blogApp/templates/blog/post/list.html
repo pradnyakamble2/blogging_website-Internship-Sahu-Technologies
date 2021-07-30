@@ -1,15 +1,61 @@
 {% extends "blog/base.html" %} {% block title %}My Blog{% endblock %} {% block content %}
-<h1>My Blog</h1>
-{% for post in posts %}
-<h2>
-    <a href="{{post.get_absolute_url}}">
-	{{post.title}}
-	</a>
-</h2>
-<p class="date">
-    Published {{ post.publish }} by {{ post.author }}
-</p>
-{{ post.body|truncatewords:30|linebreaks }} {% endfor %}{% include "blog/pagination.html" with page=posts %} {% endblock %}
+
+
+  <!-- Main Section -->
+  <main id="site-main">
+    <!-- blog post section -->
+    <section id="posts">
+        <div class="container">
+            <div class="grid">
+                
+               
+               
+                {% for post in posts %}
+                <!-- article -->
+                <div class="grid-item">
+                    <article class="article">
+                        <div class="card">
+                            <div class="overflow-img">
+                                <a href="{{post.get_absolute_url}}">
+                                    <img src="{{post.images.url}}" class="img-fluid" alt="">
+                                </a>
+                            </div>
+                            <div class="card-body text-center px-1">
+                                <a href="{{post.get_absolute_url}}" class="text-title display-1 text-dark">
+                                    {{post.title}}
+                                </a>
+                                <p>{{ post.body|truncatewords:30|linebreaks }}</p>
+                                <p class="secondary-title text-secondary display-3">
+                                    <span>
+                                        <i class="far fa-clock text-primary"></i> &nbsp; Published {{ post.publish }} by {{ post.author }}
+                                    </span>
+                                    <br>
+                                    <span>
+                                        <i class="far fa-comments text-primary"></i> 12
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                <!-- .article -->
+                {% endfor %}
+
+            </div>
+            <div class="text-center">
+                <button class="btn btn-primary secondary-title text-light">Load More Posts...</button>
+            </div>
+        </div>
+    </section>
+    <!-- blog post section close -->
+    <!--Swiper Slider -->
+    
+    <!--Swiper Slider close -->
+</main>
+<!-- Main Section Close-->
+
+
+ <!-- {% include "blog/pagination.html" with page=posts %} {% endblock %} -->
 
 
 <!-- Pagination -->

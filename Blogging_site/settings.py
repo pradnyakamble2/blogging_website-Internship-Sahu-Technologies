@@ -25,7 +25,7 @@ SECRET_KEY = 'l$(_2eu52xc)=gs(uh_ztxqotkisso_)(xu+x5hnh%##8ohqn0'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['suvm-blog2104.herokuapp.com']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -121,7 +121,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
+LOGIN_REDIRECT_URL = 'blogApp:post_list'
+LOGIN_URL = 'login/'
+LOGOUT_URL = 'logout/'
 
 # Sending	emails	with	Django
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
